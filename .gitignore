@@ -6,3 +6,5 @@
 !/.codex-shell/**
 !/.codex-waybar/
 !/.codex-waybar/**
+
+.codex-shell/bluetooth-panel/runtime/*
