@@ -76,15 +76,35 @@ ShellRoot {
             }
 
             MouseArea {
-                anchors.fill: parent
-                onPressed: mouse => {
-                    const insidePanel = mouse.x >= panel.x
-                            && mouse.x <= panel.x + panel.width
-                            && mouse.y >= panel.y
-                            && mouse.y <= panel.y + panel.height;
-                    if (!insidePanel)
-                        PanelControl.panelVisible = false;
-                }
+                x: 0
+                y: 0
+                width: overlay.width
+                height: Math.max(0, panel.y)
+                onPressed: PanelControl.panelVisible = false
+            }
+
+            MouseArea {
+                x: 0
+                y: panel.y
+                width: Math.max(0, panel.x)
+                height: panel.height
+                onPressed: PanelControl.panelVisible = false
+            }
+
+            MouseArea {
+                x: panel.x + panel.width
+                y: panel.y
+                width: Math.max(0, overlay.width - (panel.x + panel.width))
+                height: panel.height
+                onPressed: PanelControl.panelVisible = false
+            }
+
+            MouseArea {
+                x: 0
+                y: panel.y + panel.height
+                width: overlay.width
+                height: Math.max(0, overlay.height - (panel.y + panel.height))
+                onPressed: PanelControl.panelVisible = false
             }
 
             BluetoothPanel {
