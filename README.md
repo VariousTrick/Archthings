@@ -9,6 +9,7 @@
   - 当前已完成：
     - 电池面板
     - 音量面板
+    - Wi‑Fi 面板
 - `.codex-waybar`
   - `waybar` 相关脚本与资源
   - 包含：
@@ -33,6 +34,7 @@
 .codex-shell/
   battery-panel/
   volume-panel/
+  wifi-panel/
 
 .codex-waybar/
   clipboard-menu.sh
@@ -64,15 +66,18 @@
 - `cliphist`
 - `wl-clipboard`
 - `mako`
+- `networkmanager`
+- `nmcli`
 
 如果你要使用仓库中的部分功能，还会遇到这些可选依赖：
 
-- `orbit-wifi`
-  - 用于 Wi‑Fi / 蓝牙面板入口
 - `sddm`
   - 登录管理器
 - `fcitx5` / `fcitx5-rime`
   - 输入法
+
+目前仓库里的 Wi‑Fi 面板已经不再依赖 `orbit-wifi` 作为入口。
+如果以后继续做蓝牙面板，再视实现方式决定是否保留 `orbit`。
 
 ## 当前可用功能
 
@@ -116,6 +121,21 @@
 - 电源菜单
 - 电池阈值切换
 - 一些早期原型与样式资源
+
+### 4. Wi‑Fi 面板
+
+路径：
+
+- `.codex-shell/wifi-panel`
+
+能力：
+
+- Wi‑Fi 总开关
+- 已连接 / 可用网络分区
+- 可用网络列表滚动
+- 加密网络行内密码输入
+- 隐藏网络手动连接
+- 位置可拖拽并记忆
 
 ## 使用说明
 

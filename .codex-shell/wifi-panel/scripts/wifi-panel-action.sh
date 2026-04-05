@@ -34,6 +34,24 @@ case "$action" in
     [[ -n "$ssid" && -n "$password" ]] || exit 1
     nmcli device wifi connect "$ssid" password "$password" >/dev/null
     ;;
+  connect-hidden)
+    ssid="${2:-}"
+    password="${3:-}"
+    [[ -n "$ssid" ]] || exit 1
+    if [[ -n "$password" ]]; then
+      nmcli device wifi connect "$ssid" password "$password" hidden yes >/dev/null
+    else
+      nmcli device wifi connect "$ssid" hidden yes >/dev/null
+    fi
+    ;;
+  refresh)
+    device="$(wifi_device)"
+    if [[ -n "$device" ]]; then
+      nmcli device wifi rescan ifname "$device" >/dev/null || nmcli device wifi rescan >/dev/null
+    else
+      nmcli device wifi rescan >/dev/null
+    fi
+    ;;
   *)
     exit 1
     ;;

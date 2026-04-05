@@ -55,6 +55,14 @@ Singleton {
         actionProc.running = true;
     }
 
+    function triggerRefresh() {
+        if (actionProc.running)
+            return;
+        pendingAction = "refresh";
+        actionProc.command = [actionScript, "refresh"];
+        actionProc.running = true;
+    }
+
     function disconnect() {
         if (actionProc.running)
             return;
@@ -76,6 +84,17 @@ Singleton {
             return;
         pendingAction = "connect-secure";
         actionProc.command = [actionScript, "connect-secure", ssid, password];
+        actionProc.running = true;
+    }
+
+    function connectHidden(ssid, password) {
+        if (actionProc.running || !ssid)
+            return;
+        pendingAction = "connect-hidden";
+        if (password && password.length > 0)
+            actionProc.command = [actionScript, "connect-hidden", ssid, password];
+        else
+            actionProc.command = [actionScript, "connect-hidden", ssid];
         actionProc.running = true;
     }
 
