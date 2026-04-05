@@ -29,6 +29,24 @@ Item {
         return !!(modelData && modelData.path && expandedDevicePath === modelData.path);
     }
 
+    function pairingTitle() {
+        const type = PairingState.request.requestType || "";
+        if (type === "pin")
+            return "输入蓝牙 PIN";
+        if (type === "passkey")
+            return "输入配对码";
+        if (type === "confirm")
+            return "确认配对码";
+        return "蓝牙配对";
+    }
+
+    function pairingConfirmText() {
+        const type = PairingState.request.requestType || "";
+        if (type === "pin" || type === "passkey")
+            return "提交";
+        return "确认";
+    }
+
     Rectangle {
         anchors.fill: parent
         radius: 18
@@ -218,6 +236,163 @@ Item {
             }
         }
 
+        Rectangle {
+            Layout.fillWidth: true
+            visible: PairingState.active
+            radius: 16
+            color: Theme.cardSoft
+            border.width: 1
+            border.color: Qt.rgba(1, 1, 1, 0.05)
+            implicitHeight: pairingColumn.implicitHeight + 24
+
+            Column {
+                id: pairingColumn
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.margins: 12
+                spacing: 10
+
+                Column {
+                    width: parent.width
+                    spacing: 4
+
+                    Label {
+                        text: root.pairingTitle()
+                        color: Theme.text
+                        font.pixelSize: 17
+                        font.weight: Font.DemiBold
+                    }
+
+                    Label {
+                        text: PairingState.request.deviceName || "蓝牙设备"
+                        color: Theme.subtext
+                        font.pixelSize: 12
+                    }
+                }
+
+                Rectangle {
+                    width: parent.width
+                    radius: 14
+                    color: Qt.rgba(1, 1, 1, 0.04)
+                    implicitHeight: requestBody.implicitHeight + 18
+
+                    Column {
+                        id: requestBody
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.margins: 10
+                        spacing: 10
+
+                        Label {
+                            visible: PairingState.request.requestType === "confirm"
+                            width: parent.width
+                            text: "配对码"
+                            color: Theme.subtext
+                            font.pixelSize: 12
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+
+                        Label {
+                            visible: PairingState.request.requestType === "confirm"
+                            width: parent.width
+                            text: PairingState.request.passkey ? String(PairingState.request.passkey).padStart(6, "0") : ""
+                            color: Theme.text
+                            font.pixelSize: 24
+                            font.weight: Font.DemiBold
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+
+                        TextField {
+                            visible: PairingState.request.requestType === "pin"
+                            width: parent.width
+                            placeholderText: "输入 PIN"
+                            color: Theme.text
+                            placeholderTextColor: Theme.subtext
+                            text: PairingState.pinInput
+                            onTextChanged: PairingState.pinInput = text
+                            background: Rectangle {
+                                radius: 12
+                                color: Qt.rgba(1, 1, 1, 0.05)
+                                border.width: 1
+                                border.color: Qt.rgba(1, 1, 1, 0.08)
+                            }
+                        }
+
+                        TextField {
+                            visible: PairingState.request.requestType === "passkey"
+                            width: parent.width
+                            placeholderText: "输入 6 位配对码"
+                            color: Theme.text
+                            placeholderTextColor: Theme.subtext
+                            text: PairingState.passkeyInput
+                            onTextChanged: PairingState.passkeyInput = text
+                            background: Rectangle {
+                                radius: 12
+                                color: Qt.rgba(1, 1, 1, 0.05)
+                                border.width: 1
+                                border.color: Qt.rgba(1, 1, 1, 0.08)
+                            }
+                        }
+
+                        RowLayout {
+                            width: parent.width
+                            spacing: 10
+
+                            Item { Layout.fillWidth: true }
+
+                            Button {
+                                Layout.preferredWidth: 72
+                                Layout.preferredHeight: 32
+                                text: "取消"
+                                hoverEnabled: true
+                                onClicked: PairingState.reject()
+                                background: Rectangle {
+                                    radius: 16
+                                    color: parent.down
+                                           ? Qt.rgba(1, 1, 1, 0.12)
+                                           : (parent.hovered ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.05))
+                                    border.width: 1
+                                    border.color: Theme.border
+                                }
+                                contentItem: Label {
+                                    text: parent.text
+                                    color: Theme.text
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.pixelSize: 13
+                                    font.weight: Font.DemiBold
+                                }
+                            }
+
+                            Button {
+                                Layout.preferredWidth: 86
+                                Layout.preferredHeight: 32
+                                text: root.pairingConfirmText()
+                                hoverEnabled: true
+                                onClicked: PairingState.accept()
+                                background: Rectangle {
+                                    radius: 16
+                                    color: parent.down
+                                           ? Qt.darker(Theme.accent, 1.05)
+                                           : (parent.hovered ? Qt.lighter(Theme.accent, 1.05) : Theme.accent)
+                                }
+                                contentItem: Label {
+                                    text: parent.text
+                                    color: Theme.accentText
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.pixelSize: 13
+                                    font.weight: Font.DemiBold
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -327,15 +502,19 @@ Item {
                                                 Button {
                                                     visible: modelData.canForget
                                                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                                    Layout.preferredWidth: 30
-                                                    Layout.preferredHeight: 28
+                                                    Layout.preferredWidth: 32
+                                                    Layout.preferredHeight: 32
                                                     enabled: BluetoothState.bluetoothEnabled
                                                     hoverEnabled: true
+                                                    leftPadding: 0
+                                                    rightPadding: 0
+                                                    topPadding: 0
+                                                    bottomPadding: 0
 
                                                     onClicked: BluetoothState.forgetDevice(modelData.device)
 
                                                     background: Rectangle {
-                                                        radius: 14
+                                                        radius: 16
                                                         color: parent.down
                                                                ? Qt.rgba(1, 1, 1, 0.12)
                                                                : (parent.hovered ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.05))
@@ -343,12 +522,15 @@ Item {
                                                         border.color: parent.hovered ? Theme.border : Qt.rgba(1, 1, 1, 0.06)
                                                     }
 
-                                                    contentItem: Label {
-                                                        text: "󰆴"
-                                                        color: Theme.subtext
-                                                        horizontalAlignment: Text.AlignHCenter
-                                                        verticalAlignment: Text.AlignVCenter
-                                                        font.pixelSize: 13
+                                                    contentItem: Item {
+                                                        Label {
+                                                            anchors.centerIn: parent
+                                                            text: "󰆴"
+                                                            color: Theme.subtext
+                                                            horizontalAlignment: Text.AlignHCenter
+                                                            verticalAlignment: Text.AlignVCenter
+                                                            font.pixelSize: 13
+                                                        }
                                                     }
                                                 }
 
@@ -356,7 +538,7 @@ Item {
                                                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                                                     Layout.preferredWidth: 74
                                                     Layout.preferredHeight: 28
-                                                    enabled: BluetoothState.bluetoothEnabled
+                                                    enabled: BluetoothState.bluetoothEnabled && !PairingState.isBusy(modelData.path)
                                                     hoverEnabled: true
                                                     text: modelData.actionLabel
 

@@ -8,3 +8,5 @@
 !/.codex-waybar/**
 
 .codex-shell/bluetooth-panel/runtime/*
+.codex-shell/bluetooth-panel/bin/*
+.codex-shell/bluetooth-panel/rust-agent/target/*

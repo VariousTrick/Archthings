@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Bluetooth
+import "./"
 
 Singleton {
     id: root
@@ -189,7 +190,10 @@ Singleton {
     function pairDevice(device) {
         if (!device)
             return;
-        device.pair();
+        if (PairingState.helperReady && device.dbusPath)
+            PairingState.startPair(device.dbusPath);
+        else
+            device.pair();
     }
 
     function forgetDevice(device) {
