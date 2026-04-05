@@ -499,74 +499,84 @@ Item {
                                                     }
                                                 }
 
-                                                Button {
-                                                    visible: modelData.canForget
+                                                Item {
                                                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                                    Layout.preferredWidth: 32
+                                                    Layout.preferredWidth: modelData.canForget ? 118 : 74
                                                     Layout.preferredHeight: 32
-                                                    enabled: BluetoothState.bluetoothEnabled
-                                                    hoverEnabled: true
-                                                    leftPadding: 0
-                                                    rightPadding: 0
-                                                    topPadding: 0
-                                                    bottomPadding: 0
 
-                                                    onClicked: BluetoothState.forgetDevice(modelData.device)
+                                                    Row {
+                                                        anchors.right: parent.right
+                                                        anchors.verticalCenter: parent.verticalCenter
+                                                        spacing: 12
 
-                                                    background: Rectangle {
-                                                        radius: 16
-                                                        color: parent.down
-                                                               ? Qt.rgba(1, 1, 1, 0.12)
-                                                               : (parent.hovered ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.05))
-                                                        border.width: 1
-                                                        border.color: parent.hovered ? Theme.border : Qt.rgba(1, 1, 1, 0.06)
-                                                    }
+                                                        Button {
+                                                            visible: modelData.canForget
+                                                            width: 32
+                                                            height: 32
+                                                            enabled: BluetoothState.bluetoothEnabled
+                                                            hoverEnabled: true
+                                                            leftPadding: 0
+                                                            rightPadding: 0
+                                                            topPadding: 0
+                                                            bottomPadding: 0
 
-                                                    contentItem: Item {
-                                                        Label {
-                                                            anchors.centerIn: parent
-                                                            text: "󰆴"
-                                                            color: Theme.subtext
-                                                            horizontalAlignment: Text.AlignHCenter
-                                                            verticalAlignment: Text.AlignVCenter
-                                                            font.pixelSize: 13
+                                                            onClicked: BluetoothState.forgetDevice(modelData.device)
+
+                                                            background: Rectangle {
+                                                                radius: 16
+                                                                color: parent.down
+                                                                       ? Qt.rgba(1, 1, 1, 0.12)
+                                                                       : (parent.hovered ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.05))
+                                                                border.width: 1
+                                                                border.color: parent.hovered ? Theme.border : Qt.rgba(1, 1, 1, 0.06)
+                                                            }
+
+                                                            contentItem: Item {
+                                                                Label {
+                                                                    anchors.centerIn: parent
+                                                                    text: "󰆴"
+                                                                    color: Theme.subtext
+                                                                    horizontalAlignment: Text.AlignHCenter
+                                                                    verticalAlignment: Text.AlignVCenter
+                                                                    font.pixelSize: 13
+                                                                }
+                                                            }
                                                         }
-                                                    }
-                                                }
 
-                                                Button {
-                                                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                                    Layout.preferredWidth: 74
-                                                    Layout.preferredHeight: 28
-                                                    enabled: BluetoothState.bluetoothEnabled && !PairingState.isBusy(modelData.path)
-                                                    hoverEnabled: true
-                                                    text: modelData.actionLabel
+                                                        Button {
+                                                            width: 74
+                                                            height: 28
+                                                            enabled: BluetoothState.bluetoothEnabled && !PairingState.isBusy(modelData.path)
+                                                            hoverEnabled: true
+                                                            text: modelData.actionLabel
 
-                                                    onClicked: {
-                                                        if (modelData.action === "disconnect")
-                                                            BluetoothState.disconnectDevice(modelData.device);
-                                                        else if (modelData.action === "connect")
-                                                            BluetoothState.connectDevice(modelData.device);
-                                                        else
-                                                            BluetoothState.pairDevice(modelData.device);
-                                                    }
+                                                            onClicked: {
+                                                                if (modelData.action === "disconnect")
+                                                                    BluetoothState.disconnectDevice(modelData.device);
+                                                                else if (modelData.action === "connect")
+                                                                    BluetoothState.connectDevice(modelData.device);
+                                                                else
+                                                                    BluetoothState.pairDevice(modelData.device);
+                                                            }
 
-                                                    background: Rectangle {
-                                                        radius: 14
-                                                        color: parent.down
-                                                               ? Qt.rgba(1, 1, 1, 0.12)
-                                                               : (parent.hovered ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.05))
-                                                        border.width: 1
-                                                        border.color: parent.hovered ? Qt.lighter(Theme.border, 1.15) : Theme.border
-                                                    }
+                                                            background: Rectangle {
+                                                                radius: 14
+                                                                color: parent.down
+                                                                       ? Qt.rgba(1, 1, 1, 0.12)
+                                                                       : (parent.hovered ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.05))
+                                                                border.width: 1
+                                                                border.color: parent.hovered ? Qt.lighter(Theme.border, 1.15) : Theme.border
+                                                            }
 
-                                                    contentItem: Label {
-                                                        text: parent.text
-                                                        color: Theme.text
-                                                        horizontalAlignment: Text.AlignHCenter
-                                                        verticalAlignment: Text.AlignVCenter
-                                                        font.pixelSize: 13
-                                                        font.weight: Font.DemiBold
+                                                            contentItem: Label {
+                                                                text: parent.text
+                                                                color: Theme.text
+                                                                horizontalAlignment: Text.AlignHCenter
+                                                                verticalAlignment: Text.AlignVCenter
+                                                                font.pixelSize: 13
+                                                                font.weight: Font.DemiBold
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
