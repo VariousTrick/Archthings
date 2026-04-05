@@ -80,7 +80,7 @@
 
 路径：
 
-- [.codex-shell/battery-panel](/home/Arch/Downloads/vscode/Archthings/.codex-shell/battery-panel)
+- `.codex-shell/battery-panel`
 
 能力：
 
@@ -94,7 +94,7 @@
 
 路径：
 
-- [.codex-shell/volume-panel](/home/Arch/Downloads/vscode/Archthings/.codex-shell/volume-panel)
+- `.codex-shell/volume-panel`
 
 能力：
 
@@ -108,7 +108,7 @@
 
 路径：
 
-- [.codex-waybar](/home/Arch/Downloads/vscode/Archthings/.codex-waybar)
+- `.codex-waybar`
 
 包含：
 
@@ -143,4 +143,4 @@
 
 详细开发过程见：
 
-- [DEVELOPMENT_LOG.md](/home/Arch/Downloads/vscode/Archthings/DEVELOPMENT_LOG.md)
+- `DEVELOPMENT_LOG.md`
