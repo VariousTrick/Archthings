@@ -1,0 +1,112 @@
+/**
+ * Power menu in the same family as clipboard-hyde.rasi,
+ * borrowing HyDE's menu feel while staying self-contained.
+ */
+
+* {
+    main-bg:            rgba(20, 22, 34, 0.90);
+    main-fg:            #cdd6f4ff;
+    main-br:            rgba(203, 166, 247, 0.92);
+    panel-top:          rgba(36, 40, 58, 0.82);
+    panel-bottom:       rgba(17, 17, 27, 0.78);
+    select-bg:          rgba(180, 190, 254, 0.94);
+    select-fg:          #11111bff;
+    border-color:       transparent;
+}
+
+configuration {
+    modi:                        "drun";
+    show-icons:                  false;
+    kb-accept-entry:             "Return,KP_Enter";
+    kb-cancel:                   "Escape,MouseSecondary";
+    me-select-entry:             "";
+    me-accept-entry:             "MousePrimary";
+    click-to-exit:               true;
+    hover-select:                true;
+}
+
+window {
+    width:                       18em;
+    height:                      16em;
+    transparency:                "real";
+    fullscreen:                  false;
+    enabled:                     true;
+    cursor:                      "default";
+    spacing:                     0em;
+    padding:                     0em;
+    border:                      1px;
+    border-color:                @main-br;
+    border-radius:               18px;
+    background-color:            transparent;
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     0em;
+    padding:                     0.5em;
+    orientation:                 vertical;
+    children:                    [ "listbox" ];
+    background-color:            transparent;
+}
+
+inputbar {
+    enabled:                     false;
+    padding:                     0em;
+    children:                    [ "entry" ];
+    background-color:            @panel-top;
+    expand:                      false;
+    border-radius:               14px 14px 0px 0px;
+}
+
+entry {
+    enabled:                     true;
+    padding:                     1.0em 1.25em;
+    text-color:                  @main-fg;
+    background-color:            transparent;
+}
+
+listbox {
+    spacing:                     0em;
+    padding:                     0em;
+    orientation:                 vertical;
+    children:                    [ "listview" ];
+    background-color:            @panel-bottom;
+    border-radius:               14px;
+}
+
+listview {
+    enabled:                     true;
+    padding:                     0.45em 0.55em 0.55em 0.55em;
+    columns:                     1;
+    lines:                       6;
+    cycle:                       true;
+    fixed-height:                true;
+    fixed-columns:               false;
+    expand:                      false;
+    cursor:                      "default";
+    background-color:            transparent;
+    text-color:                  @main-fg;
+    scrollbar:                   false;
+}
+
+element {
+    enabled:                     true;
+    padding:                     0.65em 0.8em;
+    cursor:                      pointer;
+    border-radius:               10px;
+    background-color:            rgba(255, 255, 255, 0.02);
+    text-color:                  @main-fg;
+}
+
+element selected.normal {
+    background-color:            @select-bg;
+    text-color:                  @select-fg;
+}
+
+element-text {
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+}

@@ -1,0 +1,8 @@
+/*
+!/.gitignore
+!/README.md
+!/DEVELOPMENT_LOG.md
+!/.codex-shell/
+!/.codex-shell/**
+!/.codex-waybar/
+!/.codex-waybar/**

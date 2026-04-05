@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+limit_file="/sys/devices/platform/lg-laptop/battery_care_limit"
+current="$(<"$limit_file")"
+if [[ "$current" == "80" ]]; then
+  printf '100' > "$limit_file"
+else
+  printf '80' > "$limit_file"
+fi
